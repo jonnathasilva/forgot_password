@@ -1,6 +1,10 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import type { Adapter } from "next-auth/adapters";
+
+import { prisma } from "@/interfaces";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -16,6 +20,7 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: { signIn: "/login" },
   session: { strategy: "jwt" },
+  adapter: PrismaAdapter(prisma) as Adapter,
   secret: process.env.JWT_SECRET,
 };
 
